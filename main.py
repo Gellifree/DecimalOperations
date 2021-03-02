@@ -9,10 +9,28 @@
 # | |_\ \  __/ | | | | | | |  __/  __/
 #  \____/\___|_|_|_|_| |_|  \___|\___|
 
-import menu
+import menu, operators, syntaxChecker
+
+op = operators.Operators()
+sc = syntaxChecker.SyntaxChecker()
+
+
+def slice(string):
+    result = []
+    number = ""
+    for char in string:
+        if(sc.isItOperator(char) == True):
+            result.append(float(number))
+            number = ""
+            result.append(char)
+        else:
+            number += char
+    result.append(float(number))
+    return result
 
 def main():
-    print("Helló Világ!")
+    task = input("Add meg a kifejezést: ")
+    print(slice(task))
 
 if __name__ == '__main__':
     main()
