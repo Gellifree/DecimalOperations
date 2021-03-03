@@ -28,9 +28,55 @@ def slice(string):
     result.append(float(number))
     return result
 
+def connect(a, b, operator):
+    if(operator == "+"):
+        return op.add(a,b)
+    if(operator == "-"):
+        return op.subtract(a,b)
+    if(operator == "*"):
+        return op.times(a,b)
+    if(operator == "/"):
+        return op.divine(a,b)
+
+def maximumSearch(list):
+    max = -10
+    index = 0
+    for i in range(len(list)):
+        if(list[i] > max):
+            max = list[i]
+            index = i
+    result = {
+        "value" : max,
+        "index" : index
+    }
+
+    return result
+
+
+def primaryOperation(taskList):
+    result = []
+    for i in range(len(taskList)):
+        if(sc.isItOperator(taskList[i]) == True):
+            if(taskList[i] == "+" or taskList[i] == "-"):
+                result.append(1)
+            elif(taskList[i] == "*" or taskList[i] == "/"):
+                result.append(2)
+        else:
+            result.append(-1)
+    return maximumSearch(result)
+
+
 def main():
-    task = input("Add meg a kifejezést: ")
-    print(slice(task))
+    task = "2 + 2 - 2 * 3"
+    #task = input("Add meg a kifejezést: ")
+    taskList = slice(task)
+    print(taskList)
+    result = primaryOperation(taskList)
+
+    print(connect(taskList[result["index"] -1], taskList[result["index"] + 1], taskList[result["index"]]))
+    #for i in range(len(taskList)):
+    #    if(sc.isItOperator(taskList[i]) == True):
+    #        print(connect(taskList[i -1], taskList[i + 1], taskList[i]))
 
 if __name__ == '__main__':
     main()
