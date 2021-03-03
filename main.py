@@ -20,18 +20,18 @@ def slice(string):
     number = ""
     for char in string:
         if(sc.isItOperator(char) == True):
-            if(number == ""):
+            if(number.strip() == ""):
                 result.append(0)
             else:
-                result.append(float(number))
+                result.append(float(number.replace(" ", "")))
             number = ""
             result.append(char)
         else:
             number += char
-    if(number == ""):
+    if(number.strip() == ""):
         result.append(0)
     else:
-        result.append(float(number))
+        result.append(float(number.replace(" ", "")))
     return result
 
 def connect(a, b, operator):
