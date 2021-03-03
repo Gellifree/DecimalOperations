@@ -45,12 +45,8 @@ def maximumSearch(list):
         if(list[i] > max):
             max = list[i]
             index = i
-    result = {
-        "value" : max,
-        "index" : index
-    }
 
-    return result
+    return index
 
 
 def primaryOperation(taskList):
@@ -66,17 +62,23 @@ def primaryOperation(taskList):
     return maximumSearch(result)
 
 
-def main():
-    task = "2 + 2 - 2 * 3"
-    #task = input("Add meg a kifejezést: ")
-    taskList = slice(task)
-    print(taskList)
-    result = primaryOperation(taskList)
+def calculate(tasks):
+    sTasks = tasks
+    taskList = []
+    taskList = slice(tasks)
+    while(len(sTasks) > 1):
+        print("Feladatok: ",taskList)
+        operationDone = primaryOperation(taskList)
+        calculationResult = connect(taskList[operationDone -1], taskList[operationDone + 1], taskList[operationDone])
+        print("Részeredmény: ", calculationResult)
+        del taskList[operationDone-1:operationDone+2]
+        taskList.insert(operationDone-1, calculationResult)
+        sTasks = taskList
 
-    print(connect(taskList[result["index"] -1], taskList[result["index"] + 1], taskList[result["index"]]))
-    #for i in range(len(taskList)):
-    #    if(sc.isItOperator(taskList[i]) == True):
-    #        print(connect(taskList[i -1], taskList[i + 1], taskList[i]))
+
+def main():
+    task = "2 * 2 + 7 - 3 * 2 -1"
+    calculate(task)
 
 if __name__ == '__main__':
     main()
