@@ -8,3 +8,8 @@ class SyntaxChecker():
             if(char == self.operatorList[i]):
                 return True
         return False
+
+    def isItValidTask(self, taskList):
+        if(self.isItOperator(taskList[0]) == True):
+            return -1
+            #Az első elem nem szám, hanem operátor (pl.: - 2 + 1)

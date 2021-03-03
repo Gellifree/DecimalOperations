@@ -20,12 +20,18 @@ def slice(string):
     number = ""
     for char in string:
         if(sc.isItOperator(char) == True):
-            result.append(float(number))
+            if(number == ""):
+                result.append(0)
+            else:
+                result.append(float(number))
             number = ""
             result.append(char)
         else:
             number += char
-    result.append(float(number))
+    if(number == ""):
+        result.append(0)
+    else:
+        result.append(float(number))
     return result
 
 def connect(a, b, operator):
@@ -78,6 +84,7 @@ def calculate(tasks):
 
 def main():
     task = "2 * 2 + 7 - 3 * 2 -1"
+    task = input("Add meg az elvégezendő műveletet: ")
     calculate(task)
 
 if __name__ == '__main__':
