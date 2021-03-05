@@ -18,21 +18,53 @@ sc = syntaxChecker.SyntaxChecker()
 def slice(string):
     result = []
     number = ""
+    direction = "in"
+
+    isItInParent = False
+    print("Kapott felvágandó szöveg: ", string)
     for char in string:
-        if(sc.isItOperator(char) == True):
-            if(number.strip() == ""):
-                result.append(0)
-            else:
-                result.append(float(number.replace(" ", "")))
-            number = ""
-            result.append(char)
+        if(char == "("):
+            isItInParent = True
+            direction = "in"
+
+
+        if(char == ")"):
+            direction = "out"
+            isItInParent = False
+        if(isItInParent == False):
+            if(direction == "out"):
+                number += char
+                result.append(number.replace(" ", ""))
+                direction = "undefined"
+                number = ""
+
+            if(char != ")"):
+                if(sc.isItOperator(char) == True):
+                    if(number.strip() == "" and direction != "undefined"):
+                        result.append(0)
+                    else:
+                        if(number.strip() != ""):
+                            result.append(float(number.replace(" ", "")))
+                    number = ""
+                    result.append(char)
+                else:
+                    number += char
         else:
             number += char
-    if(number.strip() == ""):
+
+
+
+    if(number.strip() == "" and direction != "undefined"):
         result.append(0)
     else:
-        result.append(float(number.replace(" ", "")))
+        if(number.strip() != ""):
+            result.append(float(number.replace(" ", "")))
     return result
+
+
+
+
+
 
 def connect(a, b, operator):
     if(operator == "+"):
@@ -67,11 +99,35 @@ def primaryOperation(taskList):
             result.append(-1)
     return maximumSearch(result)
 
+def dissolveParent(list):
+    print("Kapott feladat: ",list)
+    list = slice(list)
+    print("Szeletelt lista: ", list)
+    inParent = ""
+    index = 0
+    for element in list:
+        if type(element) is str:
+            if(element[0] == "("):
+                for i in range(1, len(element)-1):
+                    inParent += element[i]
+                print("inParent: ", inParent)
+                result = calculate(inParent)
+
+                print(result)
+
+                print("korai lista: ", list)
+                del list[index]
+
+                list.insert(index, result)
+                print("Új lista: ", list)
+        index += 1
+
 
 def calculate(tasks):
     sTasks = tasks
     taskList = []
     taskList = slice(tasks)
+    print(taskList)
     while(len(sTasks) > 1):
         print("Feladatok: ",taskList)
         operationDone = primaryOperation(taskList)
@@ -80,12 +136,15 @@ def calculate(tasks):
         del taskList[operationDone-1:operationDone+2]
         taskList.insert(operationDone-1, calculationResult)
         sTasks = taskList
+    return calculationResult
 
 
 def main():
-    task = "2 * 2 + 7 - 3 * 2 -1"
-    task = input("Add meg az elvégezendő műveletet: ")
-    calculate(task)
+    task = "(3 + 3) -2 * (3 * 1) - 1 * (3 / 3) - (2 - 4)"
+    #task = "2 * 2 + 2 - 8"
+    #task = input("Add meg az elvégezendő műveletet: ")
+    #calculate(task)
+    print(slice(task))
 
 if __name__ == '__main__':
     main()
