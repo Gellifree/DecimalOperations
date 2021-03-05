@@ -21,7 +21,7 @@ def slice(string):
     direction = "in"
 
     isItInParent = False
-    print("Kapott felvágandó szöveg: ", string)
+    #print("Kapott felvágandó szöveg: ", string)
     for char in string:
         if(char == "("):
             isItInParent = True
@@ -63,9 +63,6 @@ def slice(string):
 
 
 
-
-
-
 def connect(a, b, operator):
     if(operator == "+"):
         return op.add(a,b)
@@ -100,8 +97,6 @@ def primaryOperation(taskList):
     return maximumSearch(result)
 
 def dissolveParent(list):
-    print("Kapott feladat: ",list)
-    list = slice(list)
     print("Szeletelt lista: ", list)
     inParent = ""
     index = 0
@@ -110,29 +105,33 @@ def dissolveParent(list):
             if(element[0] == "("):
                 for i in range(1, len(element)-1):
                     inParent += element[i]
-                print("inParent: ", inParent)
+                #print("inParent: ", inParent)
+                inParent = slice(inParent)
                 result = calculate(inParent)
 
-                print(result)
+                #print(result)
 
-                print("korai lista: ", list)
+                #print("korai lista: ", list)
                 del list[index]
 
                 list.insert(index, result)
-                print("Új lista: ", list)
+                #print("Új lista: ", list)
+                inParent = ""
         index += 1
+    return list
 
 
 def calculate(tasks):
+    print("A calculate kapta: ", tasks)
     sTasks = tasks
     taskList = []
-    taskList = slice(tasks)
-    print(taskList)
+    taskList = tasks
+    #print(taskList)
     while(len(sTasks) > 1):
-        print("Feladatok: ",taskList)
+        #print("Feladatok: ",taskList)
         operationDone = primaryOperation(taskList)
         calculationResult = connect(taskList[operationDone -1], taskList[operationDone + 1], taskList[operationDone])
-        print("Részeredmény: ", calculationResult)
+        #print("Részeredmény: ", calculationResult)
         del taskList[operationDone-1:operationDone+2]
         taskList.insert(operationDone-1, calculationResult)
         sTasks = taskList
@@ -140,11 +139,15 @@ def calculate(tasks):
 
 
 def main():
-    task = "(3 + 3) -2 * (3 * 1) - 1 * (3 / 3) - (2 - 4)"
+    task = "(3 + 3) -2 * (3 * 1) - 1 * (3 / 3) - (9 - 4) - (3 * 3 * 2)"
     #task = "2 * 2 + 2 - 8"
     #task = input("Add meg az elvégezendő műveletet: ")
     #calculate(task)
-    print(slice(task))
+
+    result = dissolveParent(slice(task))
+    print("Felbontott:\t ", result)
+    print("Eredmény:\t ", calculate(result))
+
 
 if __name__ == '__main__':
     main()
