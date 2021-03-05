@@ -1,7 +1,7 @@
 #!/usr/bin/python3.8
 
 # MADE BY
-# Kovács Norbert - mfw.kovcs.norbert@gmail.com
+# Kovács Norbert - mfw.kovacs.norbert@gmail.com
 #  _____      _ _ _  __
 # |  __ \    | | (_)/ _|
 # | |  \/ ___| | |_| |_ _ __ ___  ___
