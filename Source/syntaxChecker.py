@@ -11,3 +11,8 @@ class SyntaxChecker():
 
     def isItValidTask(self, taskList):
         pass
+
+    def isItInParent(self, string):
+        if(string[0] == "(" and string[-1] == ")"):
+            return True
+        return False

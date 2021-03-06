@@ -21,14 +21,13 @@ def slice(string):
     collector = ""
     operator = ""
 
-    parentDeepness = 0 #Out
+    parentDeepness = 0 #0 - Out
 
     for char in string:
         if(char == "("):
             parentDeepness += 1
         if(char == ")"):
             parentDeepness -= 1
-
 
         if(sc.isItOperator(char) == False and parentDeepness == 0):
             collector += char
@@ -42,16 +41,27 @@ def slice(string):
         elif(parentDeepness > -1):
             collector += char
 
-    print(result)
+    return result
 
+def disolve(taskList):
+    for task in taskList:
+        if(sc.isItInParent(task) == True):
+            newTask = task[1:-1]
+            print("inTask: ", newTask)
+            disolve(slice(newTask))
+        else:
+            print("calculated!!: ",calculate(task))
+            #ez még nemjo
 
+def calculate(taskList):
+    return -1
 
 def main():
     tasks = " 3 + 1 -  4 /     9"
     tasks = "3 - (1 + (3 + (1 -1) + 3)) - 4 + 88.3 - 2 + (3 + 3 -1) - 3"
     tasks = tasks.replace(" ", "")
     print(tasks)
-    slice(tasks)
+    disolve(slice(tasks))
 
 
 if __name__ == '__main__':
