@@ -14,6 +14,12 @@ import menu, operators, syntaxChecker
 op = operators.Operators()
 sc = syntaxChecker.SyntaxChecker()
 
+def containsParent(taskList):
+    for task in taskList:
+        if(sc.isItInParent(task) == True):
+            return True
+    return False
+
 def slice(string):
 
     result = []
