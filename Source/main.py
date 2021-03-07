@@ -52,30 +52,48 @@ def slice(string):
     return result
 
 def disolve(taskList):
+    print("kapott lista: ", taskList)
+    index = 0
+    resultList = taskList
     for task in taskList:
         if(sc.isItInParent(task) == True):
             newTask = task[1:-1]
             print("inTask: ", newTask)
             slicedNewTask = slice(newTask)
-            print("\nSliced: ", slicedNewTask)
-            disolve(slice(newTask))
+            calculatedResult = 0
+            if(containsParent(slicedNewTask) == False):
+                calculatedResult = calculate(slicedNewTask)
+                del resultList[index]
+                resultList.insert(index, calculatedResult)
+
+            else:
+                disolve(slice(newTask))
         else:
             pass
+            #resultList.append(task)
             #print("calculated!!: ",calculate(task))
             #ez még nemjo
+        index += 1
+    print(resultList)
+
+
+def disolve_v2(taskList):
+    print("kapott lista: ", taskList)
+
+    result = []
+
+def clean(string):
+    return string.replace(" ", "")
 
 def calculate(taskList):
-    return -1
+    return "-1"
 
 def main():
     tasks = " 3 + 1 -  4 /     9"
-    tasks = "3 - (1 + (3 + (1 -1) + 3)) - 4 + 88.3 - 2 + (3 + 3 -1) - 3"
-    tasks = tasks.replace(" ", "")
-    print(tasks)
-    disolve(slice(tasks))
-
-    task = "1-1"
-    print("Új: ",slice(task))
+    tasks = "3 - (1 + (3 + 3))"
+    #tasks = "3 + 3 - (6 / 6)"
+    tasks = clean(task)
+    disolve_v2(slice(tasks))
 
 
 if __name__ == '__main__':
