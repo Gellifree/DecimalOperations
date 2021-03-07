@@ -28,6 +28,7 @@ def slice(string):
     operator = ""
 
     parentDeepness = 0 #0 - Out
+    index = 0
 
     for char in string:
         if(char == "("):
@@ -37,7 +38,7 @@ def slice(string):
 
         if(sc.isItOperator(char) == False and parentDeepness == 0):
             collector += char
-            if(char == string[-1]):
+            if(index == len(string) -1):
                 result.append(collector)
         elif(sc.isItOperator(char) == True and parentDeepness == 0):
             result.append(collector)
@@ -46,6 +47,7 @@ def slice(string):
             result.append(operator)
         elif(parentDeepness > -1):
             collector += char
+        index += 1
 
     return result
 
@@ -54,9 +56,12 @@ def disolve(taskList):
         if(sc.isItInParent(task) == True):
             newTask = task[1:-1]
             print("inTask: ", newTask)
+            slicedNewTask = slice(newTask)
+            print("\nSliced: ", slicedNewTask)
             disolve(slice(newTask))
         else:
-            print("calculated!!: ",calculate(task))
+            pass
+            #print("calculated!!: ",calculate(task))
             #ez még nemjo
 
 def calculate(taskList):
@@ -68,6 +73,9 @@ def main():
     tasks = tasks.replace(" ", "")
     print(tasks)
     disolve(slice(tasks))
+
+    task = "1-1"
+    print("Új: ",slice(task))
 
 
 if __name__ == '__main__':
