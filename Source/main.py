@@ -115,9 +115,12 @@ def connect(a, b, operator):
         return op.divine(a,b)
 
 def calculateValue(tasks):
+    if(len(tasks) == 1):
+        return tasks[0]
     sTasks = tasks
     taskList = []
     taskList = tasks
+    calculationResult = 0
     #print(taskList)
     while(len(sTasks) > 1):
         #print("Feladatok: ",taskList)
@@ -131,9 +134,9 @@ def calculateValue(tasks):
 
 
 def main():
-    tasks = " 3 + 1 -  4 /     9"
-    tasks = "3 - (1 + (4 * (3 + 3)))"
-    tasks = "7 * (8 - (4 * 3))"
+    tasks = "3 - 2"
+    #tasks = "3 - (1 + (4 * (3 + 3)))"
+    #tasks = "7 * (8 - (4 * 3))"
     #tasks = "3 + 3 - (6 / 6)"
     tasks = clear(tasks)
     tasks = slice(tasks)
