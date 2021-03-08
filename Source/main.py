@@ -51,49 +51,96 @@ def slice(string):
 
     return result
 
-def disolve(taskList):
-    print("kapott lista: ", taskList)
-    index = 0
-    resultList = taskList
-    for task in taskList:
-        if(sc.isItInParent(task) == True):
-            newTask = task[1:-1]
-            print("inTask: ", newTask)
-            slicedNewTask = slice(newTask)
-            calculatedResult = 0
-            if(containsParent(slicedNewTask) == False):
-                calculatedResult = calculate(slicedNewTask)
-                del resultList[index]
-                resultList.insert(index, calculatedResult)
-
-            else:
-                disolve(slice(newTask))
-        else:
-            pass
-            #resultList.append(task)
-            #print("calculated!!: ",calculate(task))
-            #ez még nemjo
-        index += 1
-    print(resultList)
-
-
-def disolve_v2(taskList):
-    print("kapott lista: ", taskList)
-
-    result = []
-
-def clean(string):
+def clear(string):
     return string.replace(" ", "")
 
+
+def disolve(task):
+    index = 0
+    task = slice(task)
+    if(containsParent(task)):
+        for t in task:
+            if(sc.isItInParent(t)):
+                t = t[1:-1]
+                del task[index]
+                task.insert(index,disolve(t))
+            index += 1
+        return calculateValue(task) #Not sure
+    else:
+        return calculateValue(task)
+
+
 def calculate(taskList):
-    return "-1"
+    if(containsParent(taskList) == True):
+        index = 0
+        for task in taskList:
+            if(sc.isItInParent(task)):
+                task = task[1:-1]
+                del taskList[index]
+                taskList.insert(index, disolve(task))
+            index += 1
+    else:
+        return calculateValue(taskList)
+
+def maximumSearch(list):
+    max = -10
+    index = 0
+    for i in range(len(list)):
+        if(list[i] > max):
+            max = list[i]
+            index = i
+
+    return index
+
+def primaryOperation(taskList):
+    result = []
+    for i in range(len(taskList)):
+        if(sc.isItOperator(taskList[i]) == True):
+            if(taskList[i] == "+" or taskList[i] == "-"):
+                result.append(1)
+            elif(taskList[i] == "*" or taskList[i] == "/"):
+                result.append(2)
+        else:
+            result.append(-1)
+    return maximumSearch(result)
+
+def connect(a, b, operator):
+    if(operator == "+"):
+        return op.add(a,b)
+    if(operator == "-"):
+        return op.subtract(a,b)
+    if(operator == "*"):
+        return op.times(a,b)
+    if(operator == "/"):
+        return op.divine(a,b)
+
+def calculateValue(tasks):
+    sTasks = tasks
+    taskList = []
+    taskList = tasks
+    #print(taskList)
+    while(len(sTasks) > 1):
+        #print("Feladatok: ",taskList)
+        operationDone = primaryOperation(taskList)
+        calculationResult = connect(float(taskList[operationDone -1]), float(taskList[operationDone + 1]), taskList[operationDone])
+        #print("Részeredmény: ", calculationResult)
+        del taskList[operationDone-1:operationDone+2]
+        taskList.insert(operationDone-1, calculationResult)
+        sTasks = taskList
+    return calculationResult
+
 
 def main():
     tasks = " 3 + 1 -  4 /     9"
-    tasks = "3 - (1 + (3 + 3))"
+    tasks = "3 - (1 + (4 * (3 + 3)))"
+    tasks = "7 * (8 - (4 * 3))"
     #tasks = "3 + 3 - (6 / 6)"
-    tasks = clean(task)
-    disolve_v2(slice(tasks))
+    tasks = clear(tasks)
+    tasks = slice(tasks)
+    print("Kapott feladat: ", tasks)
+    calculate(tasks)
+    print("Eredmény: ",tasks)
+    print("Végső számítás: ", calculateValue(tasks))
 
 
 if __name__ == '__main__':
