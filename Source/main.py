@@ -134,7 +134,7 @@ def calculateValue(tasks):
 
 
 def main():
-    tasks = "3 - 2"
+    tasks = "4 * (3 / 7) - (4 - 7 * 3- (4/4))"
     #tasks = "3 - (1 + (4 * (3 + 3)))"
     #tasks = "7 * (8 - (4 * 3))"
     #tasks = "3 + 3 - (6 / 6)"
