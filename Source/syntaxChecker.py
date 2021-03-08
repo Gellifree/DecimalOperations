@@ -2,6 +2,11 @@ class SyntaxChecker():
     def __init__(self):
         self.operatorList = ["+", "-", "*", "/"]
 
+    def containsParent(self, taskList):
+        for task in taskList:
+            if(self.isItInParent(task) == True):
+                return True
+        return False
 
     def isItOperator(self, char):
         for i in range(len(self.operatorList)):

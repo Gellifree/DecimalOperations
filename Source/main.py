@@ -9,10 +9,11 @@
 # | |_\ \  __/ | | | | | | |  __/  __/
 #  \____/\___|_|_|_|_| |_|  \___|\___|
 
-import menu, operators, syntaxChecker
+import menu, operators, syntaxChecker, corrector
 
 op = operators.Operators()
 sc = syntaxChecker.SyntaxChecker()
+cr = corrector.Corrector()
 
 def containsParent(taskList):
     for task in taskList:
@@ -41,19 +42,22 @@ def slice(string):
             if(index == len(string) -1):
                 result.append(collector)
         elif(sc.isItOperator(char) == True and parentDeepness == 0):
-            result.append(collector)
-            collector = ""
-            operator = char
-            result.append(operator)
+            if(collector == ''):
+                operator = char
+                collector = "(0" + char
+            else:
+                result.append(collector)
+                collector = ""
+                operator = char
+                result.append(operator)
         elif(parentDeepness > -1):
             collector += char
         index += 1
-
+    result = cr.correctBrackets(result)
     return result
 
 def clear(string):
     return string.replace(" ", "")
-
 
 def disolve(task):
     index = 0
@@ -121,7 +125,7 @@ def calculateValue(tasks):
 
 
 def main():
-    tasks = "3 - (1 + (4 * (3 + 3)))"
+    tasks = "3 + 2 * 4 + -5"
     tasks = clear(tasks)
     print("Kapott feladat: ", tasks)
     result = disolve(tasks)
