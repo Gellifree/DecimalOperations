@@ -65,22 +65,9 @@ def disolve(task):
                 del task[index]
                 task.insert(index,disolve(t))
             index += 1
-        return calculateValue(task) #Not sure
+        return calculateValue(task)
     else:
         return calculateValue(task)
-
-
-def calculate(taskList):
-    if(containsParent(taskList) == True):
-        index = 0
-        for task in taskList:
-            if(sc.isItInParent(task)):
-                task = task[1:-1]
-                del taskList[index]
-                taskList.insert(index, disolve(task))
-            index += 1
-    else:
-        return calculateValue(taskList)
 
 def maximumSearch(list):
     max = -10
@@ -134,16 +121,12 @@ def calculateValue(tasks):
 
 
 def main():
-    tasks = "4 * (3 / 7) - (4 - 7 * 3- (4/4))"
-    #tasks = "3 - (1 + (4 * (3 + 3)))"
-    #tasks = "7 * (8 - (4 * 3))"
-    #tasks = "3 + 3 - (6 / 6)"
+    tasks = "3 - (1 + (4 * (3 + 3)))"
     tasks = clear(tasks)
-    tasks = slice(tasks)
     print("Kapott feladat: ", tasks)
-    calculate(tasks)
-    print("Eredmény: ",tasks)
-    print("Végső számítás: ", calculateValue(tasks))
+    result = disolve(tasks)
+    print("Végeredmény:", result)
+
 
 
 if __name__ == '__main__':
